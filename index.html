@@ -1,0 +1,251 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Ottawa Hate Crime Analysis 2018-2024</title>
+    
+</head>
+<body onload="location.href='#header'">
+    <div id="table-contents">
+        <p>Table of Contents</p>
+    </div>
+    <header>
+        <h1>Ottawa Hate Crime Analysis 2018-2024<span id="by">&nbsp&nbsp&nbspby Hadi Al-Sayed Ali</span></h1>
+        
+    </header>
+    <div id="content">
+        <h2 id="introduction">
+            Introduction
+        </h2>
+        
+        <p>In recent years, hate crime rates have surged in Ottawa, mirroring and reacting to worldwide trends and events. Between 2018 and the start of 2024, there were approximately 1700 reported hate crimes, with a 26.5% increase between 2022 and 2023.</p>
+
+        <p>While this increase may be partially attributable to an aggregate rise in political hostility worldwide, there are still unique elements to hate crime in Ottawa that warrant a local analysis and understanding.</p>
+
+        <p>Ottawa is the sixth most populous city in Canada and <a href='https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/page.cfm?Lang=E&SearchText=Ottawa&DGUIDlist=2021A00053506008&GENDERlist=1,2,3&STATISTIClist=1&HEADERlist=0'>growing steadily in diversity</a>. With a <a href='https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=9810001101'>population density of 1945.1/km^2</a>, interaction between distinct groups of people is becoming more and more frequent. Global events may induce tension and hostility into these interactions, preventing individual understanding and relatability, and instead facilitating criminal behaviour based on sensationalized, third-party misrepresentations of unique groups’ characteristics. Some sensationalism may target real events (resulting, for example, in increased anti-East-Asian sentiments during the COVID-19 pandemic), fastening itself to people’s lived experiences and prompting more urgent, tangible, hateful action on their part.</p>
+
+        <p>Establishing a connection between these large-scale events to individual experiences in Ottawa is therefore a key step in understanding its rise in hate crimes. The official Ottawa Police Service website contains a <a href='https://data.ottawapolice.ca/datasets/51835c5404674036ac03a119c2e590cd_0/explore'>dataset</a> consisting of each recorded hate crime in Ottawa between 2018 and 2023, granularized by specific date, motivation, offence type, and location. This project uses this dataset to explore and better understand the causes and trends of hate crimes in Ottawa while remaining conscious of biases and shortcomings in reportage.</p>
+
+        <h2 id="Data">Data</h2>
+
+        <p>The dataset used for this project was collated by the Ottawa Police Service and can be found via <a href='https://data.ottawapolice.ca/datasets/51835c5404674036ac03a119c2e590cd_0/explore'>this link</a>. It contains all criminal and non-criminal incidents motivated by hate or bias between 2018 and 2023, with some recent 2024 data. The specific locations of the incidents are omitted and replaced by more generic labels, such as its neighbourhood.</p>
+
+        <p>Several adjustments and augmentations were made to the dataset for its use in this project. This includes cleaning of the data (removing unnecessary whitespace, rectifying redundancies and typos, etc) and the creation of several columns. These created columns provide numerical measures for string/object types, and especially for those that have a binary selection. <a class="sqlLink" href="./code-snippets.html#clean-data" target="_blank">[Click here to view the relevant bit of code for this step].</a></p>
+
+        
+        <h2 id="General Exploration">General Exploration</h2>
+
+        <p>This section answers some general, aggregating questions about the data, whose insights may prompt further analysis. <a class='sqlLink' href="./code-snippets.html#general_questions" target="_blank">[view code]</a></p>
+
+        <h3>In which year did the most crimes occur?</h3>
+        <ul>
+            <li>The most hate crimes occurred in 2023, with 482 hate crimes. This is followed by 2022 and 2021, with 381 and 334 hate crimes, respectively.</li>
+            <li>This follows the general upward year-by-year trend of hate crimes mentioned in the introduction.</li>
+        </ul>
+
+        <div class="map">
+            <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=e4ad67207fb7fb9a7d87" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h3>In which month do the most hate crimes occur?</h3>
+        <ul>
+            <li>The most hate crimes tend to occur in June, with 194 hate crimes, followed by October and July. More hate crimes tend to occur in the summer. This is reflective of a <a href='https://bjs.ojp.gov/content/pub/pdf/spcvt.pdf'>“seasonal influence”</a> of violent criminal behaviour, where days with high heat tend to correlate with an increase of heart rate, blood pressure, and increased anger and violence. More free time (especially with youth) during the summer may also increase general crime rates.</li>
+            <li>October contains a high hate crime count because of the increase in ethnic and religious conflict after October 7, 2023 – an event whose further implications will be explored later in this project.</li>
+        </ul>
+        
+        <div class="map">
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=6c6aa24a40dc281b438e" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h3>In which month-year pair did the most crimes occur?</h3>
+        <ul>
+            <li>October 2023 concurred with the most hate crimes in the period of this project’s analysis, with 63 hate crimes. June 2023 and June 2021 follow, with 55 and 52 hate crimes, respectively. The latter is consistent with the observed trend of hate crimes occurring more often in summer months.</li>
+            <li>[month-year pairs over time]</li>
+        </ul>
+
+        <h3>On which day of the week did the most crimes occur?</h3>
+        <ul>
+            <li>The most hate crimes tend to occur on Friday, with a count of 292. Wednesday and Thursday follow with 257 and 242, respectively. It is generally observed in hate crime studies that Friday and Saturday contain the most hate crimes.</li>
+            <li>Saturday contains the second-last most hate crimes in this dataset, with a count of 224. This is likely due to an issue in reportage, as most hate crime studies have generally observed that incidents peak during Fridays and Saturdays. Sunday contains the fewest hate crimes, with a count of 210, likely due to its religious significance and the need to prepare for the incoming work week.</li>
+        </ul>
+
+        <div class="map">
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=37aaf47f4d8500f29aa1" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h3>On which date did the most hate crimes occur?</h3>
+        <ul>
+            <li>On December 22, 2023, 15 hate crimes occurred. This was a series of <a href='https://ottawa.ctvnews.ca/ottawa-police-seeking-suspect-in-hate-motivated-vandalism-1.6703553'>hate-motivated vandalisms</a> that occurred around 6pm in Elgin, O’Connor, Cooper, Gilmour, Gloucester, Lisgar, and Metcalfe.</li>
+        </ul>
+
+        <h3>How many days does it typically take for a hate crime to be reported?</h3>
+        <ul>
+            <li>It takes approximately 6.09 days, or 146.06 hours, for a hate crime to be reported in Ottawa.</li>
+        </ul>
+
+        <h2 id="Time">Time</h2>
+
+        <h3>How has the frequency of reported hate crimes changed over time?</h3>
+        <ul>
+            <li>General <a class="sqlLink" href="code-snippets.html#frequency_year" target="_blank">[view code]</a>
+                <ul>
+                    <li>Hate crime reports have been on a steady increase year-by-year; the highest number of reported hate crimes occurred in 2023 (482), with a 26.6% increase between 2022 and 2023.</li>
+                    <li>[line graph over time]</li>
+                </ul>
+            </li>
+            <li>Motivations, granular <a class="sqlLink" href="code-snippets.html#frequency_motivations" target="_blank">[view code]</a>
+                <ul>
+                    <li>Out of the hate crime motivations with at least 100 instances over the period of analysis, Jewish people were most often targeted between 2019 and 2023, with an average of 65 hate crimes per year. This is followed by black people (64/year) and LGBTQ2+ people (40/year).</li>
+                    <li>Hate crimes targeting LGBTQ2+ individuals increased most significantly between 2019 and 2023 (+933%), followed by Jewish people (+259%) and black people (+245%).</li>
+                </ul>
+            </li>
+            <li>Motivations, general <a class="sqlLink" href="code-snippets.html#frequency_motivations" target="_blank">[view code]</a>
+                <ul>
+                    <li>More generally, hate crimes targeting race/ethnicity occurred most frequently, with an average of 143 hate crimes per year. This is followed by religion (96/year) and sexual orientation (41/year).</li>
+                    <li>Hate crimes targeting sexual orientation increased most significantly between 2019 and 2023 (+755%), followed by race/ethnicity (+318%) and gender identity (+243%).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>When do the most hate crimes occur (month of year, day of week)?</h3>
+        <ul>
+            <li>Month of year <a class="sqlLink" href="code-snippets.html#frequency_month" target="_blank">[view code]</a>
+                <ul>
+                    <li>There are significant increases in hate crimes in summer months: an average 46% increase between April and May, and an average increase of 24% between May and June. This is reflective of a <a href='https://bjs.ojp.gov/content/pub/pdf/spcvt.pdf'>“seasonal influence”</a> of violent criminal behaviour, where days with high heat tend to correlate with an increase of heart rate, blood pressure, and increased anger and violence. More free time (especially with youth) during the summer may also increase general crime rates.</li>
+                    <li>A significant 30% increase in hate crimes in October is attributable to demonstrations following October 7, 2023, which is an event that is explored later in this project.</li>
+                </ul>
+            </li>
+            <li>Day of week <a class="sqlLink" href="code-snippets.html#frequency_weekday" target="_blank">[view code]</a>
+                <ul>
+                    <li>The number of hate crimes is most frequent and increases most significantly on Fridays, with a percentage increase of 17%.</li>
+                    <li>Hate crimes occur least frequently on Sundays (count 210), likely due to its religious significance.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="map">
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=37aaf47f4d8500f29aa1" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h3>How has the confirmation rate of hate crimes changed over time?</h3>
+        <ul>
+            <li>General <a class="sqlLink" href="code-snippets.html#confirmation_general" target="_blank">[view code]</a> 
+                <ul>
+                    <li>There has been a gradually lowering trend in hate crime confirmation rates in 2018, decreasing by about 4% each year. However, there was an increase in 2023 by 4%.</li>
+                </ul>
+            </li>
+            <li>Motivation, granular <a class="sqlLink" href="code-snippets.html#confirmation_motivation" target="_blank">[view code]</a>
+                <ul>
+                    <li>Confirmation rates for LGBTQ2+ hate crimes decreased most significantly between 2019 and 2023, by 23%. Muslim, black, and Jewish hate crime confirmation rates decreased next significantly.</li>
+                </ul>
+            </li>
+            <li>Location <a class="sqlLink" href="code-snippets.html#locations" target="_blank">[view code]</a>
+                <ul>
+                    <li>Confirmation rates in Centretown decreased by 6% between 2019 and 2023 – where the most hate crimes occurred – although there was a slight increase of confirmation rates in 2023.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="map">
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=edf78b0041f1af4679e6" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h3>How has the time taken to report changed over time?</h3>
+        <ul>
+            <li>General
+                <ul>
+                    <li>The average time taken to report dipped to a minimum of 84.5 hours in 2021. The average time taken to report then increased significantly, reaching 202 hours in 2023. The maximum average was 345 hours in 2019.</li>
+                    <li>The dip during the peak lockdown years is attributable to the increase in communication via digital services. With more frequent use of online communication, individuals can more easily and immediately report the hate crimes they experience. The time taken to report may have increased as a result of alleviated lockdown mandates and less reliance on digital communications.</li>
+                </ul>
+            </li>
+            <li>Granular motivations
+                <ul>
+                    <li>Hate crimes enacted on Indigenous/Aboriginal peoples took the longest average amount of time to report (1772 hours), more than double that of the second-ranked group in this regard. Police and institutional violence towards Indigenous people, both historical and contemporary, has led to a <a href='https://opentextbooks.uregina.ca/decolonizingjustice/chapter/decolonization-and-policing/'>distrust</a> between Indigenous people and government entities. Over the years of analysis, there were several instances where Indigenous killings by police sparked <a href='https://www.cbc.ca/news/canada/british-columbia/calls-police-inquiry-indigenous-deaths-1.7360219'>nationwide demonstrations</a> calling for justice and change. Between August to September 2024 alone, there were at least nine Indigenous deaths following encounters with law enforcement.</li>
+                    <li>Hate crimes enacted on Immigrants/Newcomers to Canada take the second-longest average amount of time to report (502 hours). This is due to an unfamiliarity with the infrastructure and resources available to them to report. Newcomers have also expressed <a href='https://www.canada.ca/en/immigration-refugees-citizenship/corporate/reports-statistics/research/racism-discrimination-migrant-workers-canada-evidence-literature.html'>fear of being deported</a> if they were to report injustices enacted upon them.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="map">
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=d71868fb31b6f7c3beac" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h2 id="Offence-Types">Offence Types</h2>
+
+        <h3>What are the most frequent offence types?</h3>
+        <ul>
+            <li>Mischief to property is the most common (702 counts), followed by uttered threats (143 counts) and level 1 assaults (133 counts).</li>
+        </ul>
+
+        <div class="map">
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=623fc16780d807a8be0c" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+        <h3>Which types of hate crimes are most likely to be confirmed?</h3>
+        <ul>
+            <li>Harassment via digital/written communications is most likely to be confirmed, with a confirmation percentage of 83%. Mischief to property (76%) and assault with a weapon (74%) follow. These are all instances where the hate crime is documentable. In an earlier analysis of the average time taken to report hate crimes in each year, it was discovered that lockdown years (2020 and 2021) yielded the shortest report times. Since the lockdown concurred with an increased reliance on digital communications, hate crimes were more documentable and easily reportable in this period.</li>
+        </ul>
+
+        <div class="map">       
+        <iframe title="hate_crimes" width="800" height="486" src="https://app.powerbi.com/view?r=eyJrIjoiNTdkYjQ4MDQtZWYxNy00ZGQ1LTg5OTQtYjA1N2M1NTQ2NGU4IiwidCI6ImQ0MWZkYWIxLTdlMTUtNGNmZC1iNWZhLTcyMDBlNTRkZWI2YiJ9&pageName=2dab723c745739c987ca" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+
+
+        <h2 id="Hate-Crime-Motivations">Hate Crime Motivations</h2>
+
+        <h3>Which locations (20+ instances) are certain groups (100+ instances) more targeted?</h3>
+        <ul>
+            <li>Granular <a class="sqlLink" href="code-snippets.html#locations_motivations_proportions" target="_blank">[view code]</a>
+                <ul>
+                    <li>The highest proportion of Jewish-based hate crimes occur in the Glebe, with nearly 50% of all hate crimes in the Glebe being directed towards Jewish people. Black people are most targeted in Kanata South Business Park and Vanier North, with 37% and 31% of hate crimes occurring in these areas being targeted towards black people. LGBTQ2+ people are most targeted in Vanier North, with 25% of all hate crimes in this area being directed to LGBTQ2+ people.</li>
+                </ul>
+            </li>
+            <li>General <a class="sqlLink" href="code-snippets.html#locations_motivations_proportions" target="_blank">[view code]</a>
+                <ul>
+                    <li>More generally, the highest proportion of race/ethnicity-based hate crimes occur in Ledbury/Heron Gate/Ridgemont/Elmwood, with 57% of all hate crimes in this location being race/ethnicity-based. Carlington, Overbrook, and Bridlewood have proportions of at least 55% in this regard.</li>
+                    <li>The highest proportion of religion-based hate crimes occur in Glebe (Dows Lake), with 51% of all hate crimes in this area being religion-based.</li>
+                    <li>The highest proportion of sexual orientation-based hate crimes is in Vanier North, with 31% of all hate crimes in this location being directed towards sexual orientation.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2 id="Significant-Events">Significant Events</h2>
+
+        <p>For the following analyses, the change in hate crime frequency is measured by comparing the average hate crimes per day before and during the significant events in question. The “start” and “end” dates for these events are chosen to reflect likely shifts in public perception, rather than objective or official start and end dates.</p>
+
+        <h3>How did the pandemic/lockdown affect hate crimes?</h3>
+        <ul>
+            <li>For this analysis, the “start” date of the pandemic is considered to be March 25, 2020: when Jim Watson declared a local state of emergency. The “end” date is considered to be a year later, March 25, 2021, in the “middle” of the pandemic. The alleviation of the lockdown is not considered the end date of this analysis, as the goal is to determine how the initial, unexpected shift in circumstances affected hate crime rates.</li>
+            <li>It was previously observed that the lockdown did not alter the general upward trajectory of hate crimes; however, hate crimes that did occur were more easily reportable. An increased reliance on digital communications for the average person made hate crimes more documentable and confirmable.</li>
+            <li>East and Southeast Asian hate crimes increased most significantly, by 646%. This is reflective of a global surge in East and Southeast Asian discrimination during the pandemic due to COVID-19’s origin in China. A <a href='https://www.pewresearch.org/race-and-ethnicity/2023/11/30/asian-americans-and-discrimination-during-the-covid-19-pandemic/'>Pew Research survey</a> conducted in 2022-2023 determined that about one-third of East Asians in the United States know another East Asian person who has been threatened or attacked since the pandemic.</li>
+            <li>In Ottawa, Yukang Li, executive director of the Somerset Street Chinatown Business Improvement Area, states that anti-Asian hate crimes <a href='https://ottawacitizen.com/news/local-news/reports-of-anti-asian-hate-in-ottawa-have-climbed-drastically-during-the-pandemic-community-members-say-its-likely-worse-than-the-stats-show'>may be higher</a> than the data shows. He notes that the Asian community and Asian business owners choose not to report incidents to the police because of language barriers and the belief that the offences do not reach the point of criminality.</li>
+            <li>Black (+571%) and Arab (+421%) hate crimes increased next most significantly during the lockdown. Hate crimes on the basis of race/ethnicity in general increased by 478% during the pandemic.</li>
+        </ul>
+
+        <h3>How did the Freedom Convoy affect hate crimes?</h3>
+        <ul>
+            <li>For this analysis, the “start” date of the convoy is considered to be January 22, 2022: when the convoy of vehicles protesting vaccine mandates converged in Ottawa and were joined by pedestrian protestors in a rally at Parliament Hill. The “end” date is considered to be about a month later, February 23, 2022: the date when Ontario ended the state of emergency (which was declared on February 11).</li>
+            <li>Women faced the highest increase in hate crimes (+576%), followed by South Asians (+440%). Street harassment increased significantly during this time, with uttered threats increasing by 525%. There was also an increase in hate speech and disinformation (+800%) crimes, propagated primarily by alt-right groups <a href='https://globalnews.ca/news/8543281/covid-trucker-convoy-organizers-hate/'>promoting and organizing the convoy</a>.</li>
+        </ul>
+
+        <h3>How did October 7 affect hate crimes?</h3>
+        <ul>
+            <li>For this analysis, the “start” is considered October 7, 2023. The “end” date is considered the date of the most recently reported hate crime (February 12, 2024) in this dataset, as the societal effects of this event are actively ongoing.</li>
+            <li>It was noted previously that October 2023 was the month-year pair in this dataset with the most hate crimes, with a count of 63. The significant number of hate crimes in this single month resulted in its breaking of several generally observed trends in this project, such as summer months (June and July) having higher hate crime frequencies than other months.</li>
+            <li>Jewish people and Muslims faced a significant increase in hate crimes – by 594% and 446%, respectively. In general, hate crimes on the basis of religion increased by 456% as a whole. Outside of Christians and non-religious people, Islam and Judaism rank <a href='https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/page.cfm?Lang=E&SearchText=Ottawa&DGUIDlist=2021S0503505&GENDERlist=1,2,3&STATISTIClist=1,4&HEADERlist=0'>first and fourth</a> on the most common religions in Ottawa. An ongoing crisis that involves two of the most prevalent religions in Ottawa is likely to result in an increase in hate-motivated crime on the basis of religion.</li>
+        </ul>
+
+        <h2 id="Conclusion">Conclusion</h2>
+        <p>This analysis covered six years of hate crimes in Ottawa, examining the influence of various social factors on the growing hostility between different groups of people. It also examined the influence of significant local and global events, such as the COVID-19 pandemic. Hate crime motivations, frequencies, types, and reportage intervals may differ depending on the location and period of analysis.</p>
+        <p>The COVID-19 lockdown and pandemic instigated several notable changes in hate crime trends in Ottawa. While the frequency of hate crimes continued only to rise during this period, a collective shift to digital communications improved documentability, and consequently, confirmability. More easily documentable hate crimes, such as mischief to property or harassment via digital/written communication, are more often confirmed; therefore, the COVID-19 pandemic saw an increase in confirmation rates. The convenient and/or frequent access to technology also allowed for more immediate and safe reportage, resulting in a decrease in the average time between the occurrence of a hate crime and it being reported.</p>
+        <p>The time between the occurrence of a hate crime and it being reported varied significantly across different groups. Unique groups’ circumstances and experiences were found to be key factors in reportage time. Indigenous people and immigrants/newcomers to Canada took the longest average time to report hate crimes; distrust in law enforcement and unfamiliarity with reportage resources are attributable to this gap. Language barriers and the fear of repercussion also leads some people to never report the hate-based actions performed upon them.</p>
+        <p>Reporting a hate crime often necessitates trust in and awareness of the system that it is being submitted to. Diverse groups of people in Ottawa possess unique experiences and relations with the city and federal government, and a uniform, normative-based system for reporting hate crimes fails to accommodate this. Differing elements of culture and experience, such language and historical contention with law enforcement, may render the current means of reportage impractical, cumbersome, or counterproductive for many people.</p>
+        <p>Several systems, each <a href='https://esj.usask.ca/index.php/esj/article/view/70794'>focused on and designed</a> to be accessible for a specific group of people, may aid in collecting data that accurately reflects these diverse experiences. A multi-system approach also acknowledges and accommodates the diversity of Ottawa, while a uniform system essentially asks certain groups to culturally assimilate in order to report an experience that was motivated by their cultural variance.</p>
+
+
+    </div>
+</body>
+<script src='./index.js'>
+</script>
+</html>

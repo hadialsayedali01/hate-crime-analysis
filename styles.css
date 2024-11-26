@@ -1,0 +1,190 @@
+html {
+    margin:0;
+}
+
+html, pre {
+    color: rgb(0, 0, 0);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    background: linear-gradient(rgb(255, 253, 253), rgba(192, 192, 192, 0.5)), url('ottawa.jpg');
+    background-attachment: fixed;
+}
+
+h3 {
+    font-style: italic;
+    font-size:x-large;
+}
+
+p {
+    margin-top: 0.5em;
+    font-size: large;
+}
+
+ul, li {
+    font-size: large;
+}
+
+a, a:visited {
+    color: rgb(47, 119, 139);
+    transition: color 0.5s;
+}
+
+a.sqlLink {
+    color: rgb(15, 196, 45);
+    transition: color 0.5s;
+}
+
+a.sqlLink:visited:hover {
+    color: rgb(10, 107, 27);
+}
+
+a.sqlLink:visited {
+    color: rgb(15, 196, 45);
+}
+
+a:hover, a:visited:hover {
+    color: rgb(42, 70, 129);
+}
+
+header, h1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    position: relative;
+    z-index: 1;
+    width: 70%;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+header {
+    background-color: rgba(190, 190, 190, 0.6);
+    border: 2px solid black;
+
+}
+
+#by {
+    font-size: smaller;
+    font-weight: lighter;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px 150px;
+    padding: 15px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid black;
+    border-radius: 25px;
+}
+
+.gist {
+    height: fit-content;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.map {
+    height: auto;
+    margin: 0 auto;
+}
+
+dialog {
+    transition: opacity 1s;
+}
+
+dialog[open] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: fit-content;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    border-radius: 25px;
+    opacity: 1;
+}
+
+dialog[open] * {
+    background-color: white;
+    color: black;
+    overflow: auto;
+}
+
+dialog a {
+    text-decoration: none;
+    transition: font-weight 0.5s, color 0.5s;
+}
+
+dialog a:hover {
+    font-weight: bolder;
+}
+
+dialog button {
+    margin: 20px 100px;
+    transition: background-color 0.5s;
+}
+
+dialog button:hover {
+    background-color: rgb(209, 209, 209);
+    cursor: pointer;
+}
+
+.sqlLink {
+    color: rgb(15, 196, 45);
+    cursor: pointer;
+    transition: color 1s;
+    text-decoration:underline;
+    font-style: italic;
+}
+
+.sqlLink:hover {
+    color: rgb(60, 121, 60);
+}
+
+button {
+    margin-top: 15px;
+    border: 2px solid black;
+    border-radius: 25px;
+}
+
+h1 {
+    padding: 10px;
+    width: 100%;
+}
+
+h2 {
+    font-size: xx-large;
+    margin-top: 20px;
+    border-bottom: 1px solid black;
+}
+
+#table-contents {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    color: black;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 20px;
+    height: fit-content;
+    width: fit-content;
+    position: sticky;
+    top: 25px;
+    left: 10000px;
+    z-index: 1000;
+    transition: background-color 1s;
+}
+
+#table-contents:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
